@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0a0c11" />
+    <meta name="description" content="A mythic third-person action RPG. Walk the pilgrimage of the Monkey King." />
+    <title>Legend of the Monkey King</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="game-root">
+      <canvas id="game-canvas" aria-label="Legend of the Monkey King 3D game"></canvas>
+      <div id="vignette"></div>
+      <header class="topbar">
+        <button class="brand-mark" id="menu-open" aria-label="Open game menu"><span>☯</span></button>
+        <div class="chapter-title"><span class="eyebrow">CHAPTER I · THE PILGRIM'S ROAD</span><strong>Whispering Bamboo Grove</strong></div>
+        <div class="top-actions"><button class="icon-button" id="sound-toggle" aria-label="Toggle sound">♫</button><button class="icon-button" id="settings-open" aria-label="Settings">⚙</button></div>
+      </header>
+      <div class="quest-card"><span class="quest-glyph">✦</span><div><span class="eyebrow">CURRENT PILGRIMAGE</span><p id="quest-text">Follow the old stone path</p></div><span class="quest-distance" id="quest-distance">—</span></div>
+      <div class="hud-left"><div class="player-label"><span class="avatar">猴</span><div><strong>THE DESTINED ONE</strong><small>Level <span id="level-label">01</span> · Pilgrim</small></div></div><div class="stat-row"><span class="stat-icon heart">♥</span><div class="stat-track"><div class="stat-fill health-fill" id="health-fill"></div></div><span class="stat-value" id="health-value">100 / 100</span></div><div class="stat-row"><span class="stat-icon spirit">✧</span><div class="stat-track"><div class="stat-fill focus-fill" id="focus-fill"></div></div><span class="stat-value" id="focus-value">0 / 100</span></div><div class="stance-line"><span class="stance-dot"></span><span id="stance-label">SMASH STANCE</span><span class="stance-separator">·</span><span id="combo-label">READY</span></div></div>
+      <div class="boss-hud" id="boss-hud"><div class="boss-name-row"><span class="boss-sigil">♜</span><div><span class="eyebrow">YAOGUAI KING · PHASE <b id="boss-phase">I</b></span><strong id="boss-name">Black Wind King</strong></div><span class="boss-health-text" id="boss-health-text">100%</span></div><div class="boss-track"><div class="boss-fill" id="boss-fill"></div><div class="phase-marker"></div></div></div>
+      <div class="minimap-wrap"><div class="minimap-ring"><canvas id="minimap" width="156" height="156"></canvas><span class="map-player"></span><span class="map-label">GROVE</span></div></div>
+      <div class="interaction-hint" id="interaction-hint"><span>◉</span> <b>E</b> <span id="interaction-text">Examine shrine</span></div>
+      <div class="toast" id="toast"></div>
+      <div class="damage-flash" id="damage-flash"></div>
+      <div class="center-message" id="center-message"></div>
+      <div class="controls-hint"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move <span>·</span> <kbd>SPACE</kbd> dodge <span>·</span> <kbd>J</kbd> light <kbd>K</kbd> heavy <span>·</span> <kbd>Q</kbd> immobilize</div>
+      <div class="mobile-left"><div class="joystick" id="joystick"><div class="joy-knob" id="joy-knob"></div></div></div>
+      <div class="mobile-right"><button class="touch-action skill-action" data-action="immobilize"><span>❄</span><small>FREEZE</small></button><button class="touch-action" data-action="jump"><span>↟</span><small>JUMP</small></button><button class="touch-action" data-action="dodge"><span>➤</span><small>DODGE</small></button><button class="touch-action heavy-action" data-action="heavy"><span>◈</span><small>HEAVY</small></button><button class="touch-action attack-action" data-action="attack"><span>⚔</span><small>ATTACK</small></button></div>
+      <div class="bottom-left"><button class="ability-button" data-action="cloud" title="Cloud Somersault"><span>☁</span><small>CLOUD</small><i id="cloud-cooldown"></i></button><button class="ability-button" data-action="clones" title="Clone Technique"><span>♧</span><small>CLONES</small><i id="clone-cooldown"></i></button><button class="ability-button" data-action="transform" title="Monkey Transformation"><span>♨</span><small>FORM</small><i id="transform-cooldown"></i></button><button class="ability-button" data-action="staff" title="Staff Transformation"><span>↕</span><small>STAFF</small><i id="staff-state"></i></button></div>
+      <div class="lock-indicator" id="lock-indicator"><span>◉</span> TARGET LOCKED</div>
+      <button class="lock-button" id="lock-button" title="Lock on target">◎<small>LOCK</small></button>
+      <div class="combat-flash" id="combat-flash"></div>
+      <div class="overlay" id="start-screen"><div class="start-art"><div class="start-sun"></div><div class="start-mountains"></div><div class="start-figure">猿</div></div><div class="start-content"><span class="eyebrow">A MYTHIC ACTION RPG</span><h1>LEGEND OF THE<br /><em>MONKEY KING</em></h1><p class="start-copy">The old road remembers every footstep.<br />The mountain remembers every name.</p><div class="start-meta"><span>✦ &nbsp;A PILGRIMAGE IN THREE ACTS</span><span>◆ &nbsp;CHAPTER I — THE BAMBOO GROVE</span></div><button class="primary-button" id="begin-game"><span>BEGIN THE PILGRIMAGE</span><b>→</b></button><div class="start-foot">AN ORIGINAL MYTHIC ADVENTURE <span>·</span> AUTOSAVES AS YOU TRAVEL</div></div></div>
+      <div class="overlay hidden" id="menu-screen"><div class="modal-card"><button class="close-modal" data-close>×</button><span class="eyebrow">THE DESTINED ONE</span><h2>Journey pause</h2><p>Your pilgrimage is safely remembered at each shrine.</p><div class="menu-stats"><div><small>LEVEL</small><strong id="menu-level">01</strong></div><div><small>SPARKS</small><strong id="spark-count">0</strong></div><div><small>RELICS</small><strong id="relic-count">0 / 8</strong></div></div><div class="menu-actions"><button class="menu-row" id="upgrade-button"><span>✦ &nbsp;Temper the golden staff</span><b>UPGRADE</b></button><button class="menu-row" id="skill-button"><span>☯ &nbsp;Study a new technique</span><b>SKILL TREE</b></button><button class="menu-row" id="save-button"><span>◉ &nbsp;Save pilgrimage</span><b>SAVED</b></button><button class="menu-row" id="resume-button"><span>↗ &nbsp;Return to the road</span><b>RESUME</b></button></div><div class="skill-detail" id="skill-detail"></div></div></div>
+      <div class="overlay hidden" id="settings-screen"><div class="modal-card settings-card"><button class="close-modal" data-close>×</button><span class="eyebrow">TRAVELER'S SETTINGS</span><h2>Make the road yours</h2><label class="setting-row"><span><b>Graphics quality</b><small>Adjust detail for your device</small></span><select id="quality-select"><option>Low</option><option selected>Medium</option><option>High</option><option>Ultra</option></select></label><label class="setting-row"><span><b>Render scale</b><small>Balance clarity and performance</small></span><input id="scale-slider" type="range" min="65" max="100" value="90" /></label><label class="setting-row"><span><b>Motion effects</b><small>Screen shake and impact flair</small></span><input id="motion-toggle" type="checkbox" checked /></label><div class="settings-note">Built for smooth travel on mobile. Low-end devices target 30 FPS; capable devices can reach 60 FPS.</div></div></div>
+      <div class="overlay hidden" id="victory-screen"><div class="victory-card"><span class="eyebrow">THE MOUNTAIN REMEMBERS</span><div class="victory-mark">✦</div><h2 id="victory-title">A demon falls silent</h2><p id="victory-copy">The path opens beyond the grove.</p><div class="reward-line"><span>◈</span><b id="reward-copy">+80 Sparks</b></div><button class="primary-button" id="continue-game"><span>CONTINUE THE PILGRIMAGE</span><b>→</b></button></div></div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
